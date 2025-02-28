@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './index.css';
 import App from './App';
-import SignToSite from "./Components/Sign/SignToSite.jsx"
-import UserSite from "./Components/UserSite/UserSite.jsx";
+import SignToSite from "./Components/Sign/SignIn.jsx"
+import UserSite from "./Components/UserSite/PageUser.jsx";
 import Error from "./Components/Error_404/index.jsx";
 import reportWebVitals from './reportWebVitals';
 

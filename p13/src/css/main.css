@@ -280,9 +280,11 @@
   color: #fff;
 }
 
-/*.Edit-Name{
+.Edit-Name{
+  margin-top: 2rem;
   display: none;
-}*/
+  margin-bottom: 2rem;
+}
 
 .input-wrapper-2{
   display: flex;

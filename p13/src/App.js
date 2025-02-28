@@ -2,8 +2,12 @@
 import Footer from "./Components/Footer/Footer.jsx"
 import HeaderNavigation1 from './Components/HeaderNavigations/HeaderNavigations.jsx';
 import './css/main.css';
-
+//import ReceptAPI from "./Services/ReceptAPI.js";
+import { useEffect } from "react";
 function App() {
+  useEffect(() => {
+    document.title = "Argent Bank - Home Page"; // Changer le titre ici
+  }, []);
   return (
     <div className="html body">
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
