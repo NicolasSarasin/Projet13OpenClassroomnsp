@@ -15,4 +15,8 @@ export const store = configureStore({
         buttonSignIn: button.reducer,
         formulari: form.reducer,
     }),
+    middleWare:[(store)=>(next)=>(action)=>{
+        console.log("Action", action);
+        next(action);
+    }]
 });

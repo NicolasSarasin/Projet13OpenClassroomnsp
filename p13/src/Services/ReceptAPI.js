@@ -1,9 +1,9 @@
 import DataAdapters from "./DataAdapters";
 const ReceptAPI = {
-    getUserMain : async function (userId) {
+    getUserMain : async function (/*userId*/) {
         try {
-            console.log("UserId",userId)
-            const response = await fetch('http://localhost:3001'+userId);
+            console.log("DataBase","http://localhost:3001/api/v1/user/signup")
+            const response = await fetch('http://localhost:3001');
             if (!response.ok) {
                 throw new Error('Erreur de réseau');
             }

@@ -7,10 +7,13 @@ import ReceptAPI from "../../Services/ReceptAPI.js";
 import { SuperCremeux } from "./models";*/
 
 function UserSite(){
+    const [isDetailsVisible, setIsDetailsVisible] = useState(false);
     const [userMain, setUserMain] = useState({
         firstName:"",
         lastName:"",
     });
+    const displayHeader = document.getElementsByClassName("header")[0];
+    const displayEditName = document.getElementById("Edit-Name");
     useEffect(() => {
         const fetchData = async () => {
           const dataUserMain = await ReceptAPI.getUserMain();
@@ -22,8 +25,6 @@ function UserSite(){
         document.title = "Argent Bank - Home Page"; // Changer le titre ici
     }, []);
     const handleDisplay = () => {
-        const displayHeader = document.getElementsByClassName("header")[0];
-        const displayEditName = document.getElementsByClassName("Edit-Name")[0];
         if (displayHeader !== (displayHeader.style.display = "none")){
             displayHeader.style.display = "none"
             displayEditName.style.display = "block"
@@ -38,7 +39,7 @@ function UserSite(){
     }
     const handleDisplayEditName = () => {
         const displayHeader = document.getElementsByClassName("header")[0];
-        const displayEditName = document.getElementsByClassName("Edit-Name")[0];
+        const displayEditName = document.getElementById("Edit-Name");
         if (displayEditName !== (displayEditName.style.display = "none")){
             displayHeader.style.display = "block"
             displayEditName.style.display = "none"
@@ -50,25 +51,44 @@ function UserSite(){
         else{
             console.error("Les éléments #myElement n'existe pas !");
         }
+        /*<div
+            id={id + "Details"}
+            className={
+                "divCardDescriptionUnder" +
+                (isDetailsVisible
+                    ? " divCardDescriptionUnderRotate"
+                    : "")
+            }
+        >
+            <p dangerouslySetInnerHTML={{ __html: details }}></p>
+        </div>
+        */
     }
+    const toggleDetails = () => {
+        setIsDetailsVisible(!isDetailsVisible);
+    };
     return(
         <div className="html body">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
             <HeaderNavigation2/>
                 <main className="main bg-dark">
-                    <div className="header">
-                        <h1>Welcome back<br />Tony Jarvis!</h1>
-                        <button className="edit-button" onClick={handleDisplay} >Edit Name</button>
+                    <div className="header"/*className={"header" + (isDetailsVisible ? "header" : "Edit-Name")}*/>
+                        <h1>Welcome back<br /> Tony Jarvis!{/*userMain.firstName + " " + userMain.lastName + "!"Tony Jarvis!*/}</h1>
+                        <button className="edit-button" onClick={()=>handleDisplay()} >Edit Name</button>
                     </div>
-                    <div className="Edit-Name">
+                    <div id="Edit-Name" className={"Edit-Name" + (isDetailsVisible ? "Edit-Name" : "header")}>
                         <form>
                             <div className="input-wrapper-2">
-                                <input type="text" id="username" value="Tony" /*value={userMain.firstName}*//>
+                                <input type="text" id="username" value="Tony" /*value={userMain.body.firstName}*//>
                                 <input type="text" id="lastname" value="Jarvis" /*value={userMain.lastName}*//>
                             </div>
                             <div className="input-wrapper-2">
-                                <button type="button" onClick={handleDisplayEditName}/*onClick={() => store.dispatch({type: 'SAVE', payload: SuperCremeux})}*/ className="save-button" >Save</button>
-                                <button type="button" onClick={handleDisplayEditName}/*onClick={() => store.dispatch({type: 'CANCEL', payload: SuperCremeux})}*/ className="cancel-button" >Cancel</button>
+                                <button type="button" onClick={() =>
+                                    toggleDetails()
+                                } className="save-button" >Save</button>
+                                <button type="button" onClick={() =>
+                                    handleDisplayEditName()
+                                } className="cancel-button" >Cancel</button>
                             </div>
                         </form>
                     </div>

@@ -311,3 +311,9 @@
     width: 200px;
   }
 }
+
+.ErrorMessage{
+  display: none;
+  color: red;
+  font-size: 12px;
+}
