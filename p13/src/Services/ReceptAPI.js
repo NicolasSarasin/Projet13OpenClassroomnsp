@@ -3,7 +3,7 @@ const ReceptAPI = {
     getUserMain : async function (/*userId*/) {
         try {
             console.log("DataBase","http://localhost:3001/api/v1/user/signup")
-            const response = await fetch('http://localhost:3001');
+            const response = await fetch('http://localhost:3001/api/v1/user/signup');
             if (!response.ok) {
                 throw new Error('Erreur de réseau');
             }

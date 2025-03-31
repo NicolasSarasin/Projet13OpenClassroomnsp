@@ -264,6 +264,7 @@
 }
 
 .header {
+  margin-top: 2rem;
   color: #fff;
   margin-bottom: 2rem;
 }
@@ -280,10 +281,8 @@
   color: #fff;
 }
 
-.Edit-Name{
-  margin-top: 2rem;
+.Hidden{
   display: none;
-  margin-bottom: 2rem;
 }
 
 .input-wrapper-2{
@@ -312,8 +311,13 @@
   }
 }
 
-.ErrorMessage{
+.NoneMessageError{
   display: none;
+  color: red;
+  font-size: 12px;
+}
+.DisplayMessageError{
+  display: block;
   color: red;
   font-size: 12px;
 }

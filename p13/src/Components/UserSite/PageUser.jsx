@@ -12,8 +12,6 @@ function UserSite(){
         firstName:"",
         lastName:"",
     });
-    const displayHeader = document.getElementsByClassName("header")[0];
-    const displayEditName = document.getElementById("Edit-Name");
     useEffect(() => {
         const fetchData = async () => {
           const dataUserMain = await ReceptAPI.getUserMain();
@@ -24,70 +22,38 @@ function UserSite(){
     useEffect(() => {
         document.title = "Argent Bank - Home Page"; // Changer le titre ici
     }, []);
-    const handleDisplay = () => {
-        if (displayHeader !== (displayHeader.style.display = "none")){
-            displayHeader.style.display = "none"
-            displayEditName.style.display = "block"
-        }
-        else if (displayEditName !== (displayEditName.style.display = "none")){
-            displayHeader.style.display = "block"
-            displayEditName.style.display = "none"
-        }
-        else{
-            console.error("Les éléments #myElement n'existe pas !");
-        }
+    const handleEditName = () => {
+        setIsDetailsVisible(true);
     }
-    const handleDisplayEditName = () => {
-        const displayHeader = document.getElementsByClassName("header")[0];
-        const displayEditName = document.getElementById("Edit-Name");
-        if (displayEditName !== (displayEditName.style.display = "none")){
-            displayHeader.style.display = "block"
-            displayEditName.style.display = "none"
-        }
-        else if (displayHeader !== (displayHeader.style.display = "none")){
-            displayHeader.style.display = "none"
-            displayEditName.style.display = "block"
-        }
-        else{
-            console.error("Les éléments #myElement n'existe pas !");
-        }
-        /*<div
-            id={id + "Details"}
-            className={
-                "divCardDescriptionUnder" +
-                (isDetailsVisible
-                    ? " divCardDescriptionUnderRotate"
-                    : "")
-            }
-        >
-            <p dangerouslySetInnerHTML={{ __html: details }}></p>
-        </div>
-        */
+    const handleCancel = () =>{
+        setIsDetailsVisible(false);
     }
-    const toggleDetails = () => {
-        setIsDetailsVisible(!isDetailsVisible);
-    };
+    const handleSave= ()=> {
+        setIsDetailsVisible(false);
+    }
     return(
         <div className="html body">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
             <HeaderNavigation2/>
                 <main className="main bg-dark">
-                    <div className="header"/*className={"header" + (isDetailsVisible ? "header" : "Edit-Name")}*/>
-                        <h1>Welcome back<br /> Tony Jarvis!{/*userMain.firstName + " " + userMain.lastName + "!"Tony Jarvis!*/}</h1>
-                        <button className="edit-button" onClick={()=>handleDisplay()} >Edit Name</button>
+                    {/*Div header*/}
+                    <div className={(isDetailsVisible ? "Hidden" : "header")}>
+                        <h1>Welcome back<br /> Tony Jarvis!{/*userMain.firstName + " " + userMain.lastName + "!"*/}</h1>
+                        <button className="edit-button" onClick={()=>handleEditName()} >Edit Name</button>
                     </div>
-                    <div id="Edit-Name" className={"Edit-Name" + (isDetailsVisible ? "Edit-Name" : "header")}>
+                    {/*Div Edit-Name*/}
+                    <div className={(isDetailsVisible ? "header" : "Hidden")}>
                         <form>
                             <div className="input-wrapper-2">
-                                <input type="text" id="username" value="Tony" /*value={userMain.body.firstName}*//>
+                                <input type="text" id="username" value="Tony" /*value={userMain.firstName}*//>
                                 <input type="text" id="lastname" value="Jarvis" /*value={userMain.lastName}*//>
                             </div>
                             <div className="input-wrapper-2">
                                 <button type="button" onClick={() =>
-                                    toggleDetails()
+                                    handleSave()
                                 } className="save-button" >Save</button>
                                 <button type="button" onClick={() =>
-                                    handleDisplayEditName()
+                                    handleCancel()
                                 } className="cancel-button" >Cancel</button>
                             </div>
                         </form>
