@@ -23,27 +23,45 @@ function SignToSite(){
     useEffect(() => {
         document.title = "Argent Bank - Home Page"; // Changer le titre ici
     }, []);
-    
-    /*const FormToNextPage = () =>{
-        let firstName = document.getElementById("username").value;
-        let password = document.getElementById("password").value;
-        const errorMessage1 = document.getElementById("ErrorMessage1");
-        const errorMessage2 = document.getElementById("ErrorMessage2");
-        if (password === userMain.password && firstName === userMain.firstName){
+    fetch("http://localhost:3001/api/v1/user/login", postMessage)
+    .then(response =>  response.json())
+    .then(loginData => {
+        if(loginData.status !== "200")
+        {
+            console.log("Mail and/or password invalid")
+            return;
+        }
+        const token = loginData.body.token;
+        // enregistrer le token quelque part
+        return fetch("http://localhost:3001/api/v1/user/profile", token)
+        .then(response => response.json())
+        .then(userData => {
+            const firstName = userData.body.firstName;
+            const lastName = userData.body.lastName;
+            // enregistrer firstName et lastName quelque part
+        });
+        })
+    .catch(e => {
+        console.log('Il y a eu un problème avec la récupération des données:',e);
+    });
+    const FormToNextPage = () =>{
+        let FirstName = document.getElementById("username").value;
+        let Password = document.getElementById("password").value;
+        if (Password === userMain.password && FirstName === userMain.firstName){
             setIsUserToDataBaseCorect(true);
         }
         else{
-            if (password === userMain.password && firstName !== userMain.firstName){
+            if (Password === userMain.password && FirstName !== userMain.firstName){
                 setIsUserToDataBaseCorect(false);
             }
-            else if (password !== userMain.password && firstName === userMain.firstName){
+            else if (Password !== userMain.password && FirstName === userMain.firstName){
                 setIsUserToDataBaseCorect(false);
             }
-            else if (password !== userMain.password && firstName !== userMain.firstName){
+            else if (Password !== userMain.password && FirstName !== userMain.firstName){
                 setIsUserToDataBaseCorect(false);
             }
         }
-    }*/
+    }
     const UserToDataBase = () => {
         let firstName = document.getElementById("username").value;
         let password = document.getElementById("password").value;
@@ -72,21 +90,7 @@ function SignToSite(){
             errorMessage1.style.display="block";
             errorMessage2.style.display="block";
             return false;
-        }
-        /*if (c.classList.contains("tagIngredient")) {
-            tagIngredients.push(tagValue);
-            r = r.filter((recipe) =>
-                recipe.ingredients.some(
-                    (ing) => ing.ingredient.indexOf(tagValue) >= 0
-                )
-            );
-        } else if (c.classList.contains("tagDevice")) {
-            tagDevices.push(tagValue);
-            r = r.filter((recipe) => recipe.appliance == tagValue);
-        } else if (c.classList.contains("tagUtensil")) {
-            tagUstensils.push(tagValue);
-            r = r.filter((recipe) => recipe.ustensils.includes(tagValue));
-        }*/ 
+        } 
     }
     return(
         <div className="html body">
@@ -100,14 +104,14 @@ function SignToSite(){
                         <div className="input-wrapper">
                             <label htmlFor="username">Username</label>
                             <input type="text" id="username" required/>
-                            <div className={(isUserToDataBaseCorect ? "DisplayMessageError" : "NoneMessageError")} id="ErrorMessage1">
+                            <div className={(isUserToDataBaseCorect ? "DisplayMessageError" : "NoneMessageError")}/*"ErrorMessage"*/ id="ErrorMessage1">
                                 <p>Please to verify your username</p>
                             </div>
                         </div>
                         <div className="input-wrapper">
                             <label htmlFor="password">Password</label>
                             <input type="password" id="password" required/>
-                            <div className={(isUserToDataBaseCorect ? "DisplayMessageError" : "NoneMessageError")} id="ErrorMessage2">
+                            <div className={(isUserToDataBaseCorect ? "DisplayMessageError" : "NoneMessageError")}/*"ErrorMessage"*/ id="ErrorMessage2">
                                 <p>Please to verify your password</p>
                             </div>
                         </div>
@@ -119,7 +123,7 @@ function SignToSite(){
                         {/*PLACEHOLDER DUE TO STATIC SITE
                         <Link to="/profile" className="sign-in-button">Sign In</Link>*/}
                         {/*SHOULD BE THE BUTTON BELOW */} 
-                        <button onClick={()=>UserToDataBase()} /*onClick={() => store.dispatch({type: 'ADD_PRODUCT', payload: SuperCremeux})}*/ className="sign-in-button" formaction="/profile">Sign In </button>
+                        <button onClick={()=>FormToNextPage()} /*onClick={() => store.dispatch({type: 'ADD_PRODUCT', payload: SuperCremeux})}*/ className="sign-in-button" formaction="/profile">Sign In </button>
                     </form>
                 </section>
             </main>

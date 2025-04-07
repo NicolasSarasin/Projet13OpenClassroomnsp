@@ -1,10 +1,10 @@
 const DataAdapters={
     userMainFromAPI : (dataFromAPI)=>{
         return{
-            firstName:dataFromAPI.firstName ,
-            lastName:dataFromAPI.lastName ,
-            email:dataFromAPI.email,
-            password:dataFromAPI.password,
+            firstName:dataFromAPI.body.firstName ,
+            lastName:dataFromAPI.body.lastName ,
+            email:dataFromAPI.body.email,
+            password:dataFromAPI.body.password,
         }
     },
 }

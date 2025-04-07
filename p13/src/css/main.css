@@ -259,10 +259,6 @@
   padding: 10px;
 }
 
-.save-button,.cancel-button {
-  width: 150px;
-}
-
 .header {
   margin-top: 2rem;
   color: #fff;
@@ -285,6 +281,14 @@
   display: none;
 }
 
+.formulariEdit-Name .inputs{
+  width: 150px;
+}
+
+.save-button, .cancel-button {
+  width: 150px;
+}
+
 .input-wrapper-2{
   display: flex;
   justify-content: space-around;
@@ -295,6 +299,17 @@
 
 .input-wrapper-2 input,.input-wrapper-2 button {
   font-size: 1.2rem;
+}
+
+@media (max-width: 720px){
+  .input-wrapper-2{
+    padding-left: 13%;
+    padding-right: 13%;
+  }
+
+  .formulariEdit-Name .inputs, .save-button, .cancel-button{
+    width: 100px;
+  }
 }
 
 @media (min-width: 720px) {
@@ -311,13 +326,17 @@
   }
 }
 
-.NoneMessageError{
+.NoneMessageError {
   display: none;
+}
+
+.DisplayMessageError{
+  display: block;
   color: red;
   font-size: 12px;
 }
-.DisplayMessageError{
-  display: block;
+
+#ErrorMessage1, #ErrorMessage2{
   color: red;
   font-size: 12px;
 }

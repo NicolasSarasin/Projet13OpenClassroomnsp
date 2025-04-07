@@ -31,6 +31,33 @@ function UserSite(){
     const handleSave= ()=> {
         setIsDetailsVisible(false);
     }
+    fetch("http://localhost:3001/api/v1/user/login", postMessage)
+    .then(response =>  response.json())
+    .then(loginData => {
+        if(loginData.status !== "200")
+        {
+            console.log("Mail and/or password invalid")
+            return;
+        }
+        const token = loginData.body.token;
+        // enregistrer le token quelque part
+        return fetch("http://localhost:3001/api/v1/user/profile", token)
+        .then(response => response.json())
+        .then(userData => {
+            const firstName = userData.body.firstName;
+            const lastName = userData.body.lastName;
+            // enregistrer firstName et lastName quelque part
+        });
+        })
+    .catch(e => {
+        console.log('Il y a eu un problème avec la récupération des données:',e);
+    });
+    const EditValueInputs= ()=>{
+        const inputValue1=""
+        const inputValue2=""
+        const Save=""
+        const Cancle=""
+    };
     return(
         <div className="html body">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
@@ -43,10 +70,10 @@ function UserSite(){
                     </div>
                     {/*Div Edit-Name*/}
                     <div className={(isDetailsVisible ? "header" : "Hidden")}>
-                        <form>
+                        <form className="formulariEdit-Name">
                             <div className="input-wrapper-2">
-                                <input type="text" id="username" value="Tony" /*value={userMain.firstName}*//>
-                                <input type="text" id="lastname" value="Jarvis" /*value={userMain.lastName}*//>
+                                <input type="text" id="username" className="inputs" value="Tony" /*value={userMain.firstName}*//>
+                                <input type="text" id="lastname" className="inputs" value="Jarvis" /*value={userMain.lastName}*//>
                             </div>
                             <div className="input-wrapper-2">
                                 <button type="button" onClick={() =>

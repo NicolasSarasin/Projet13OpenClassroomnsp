@@ -1,18 +1,28 @@
 import DataAdapters from "./DataAdapters";
 const ReceptAPI = {
     getUserMain : async function (/*userId*/) {
-        try {
-            console.log("DataBase","http://localhost:3001/api/v1/user/signup")
-            const response = await fetch('http://localhost:3001/api/v1/user/signup');
-            if (!response.ok) {
-                throw new Error('Erreur de réseau');
+        await fetch("http://localhost:3001/api/v1/user/login", postMessage)
+        .then(response =>  response.json())
+        .then(loginData => {
+            if(loginData.status !== "200")
+            {
+                console.log("Mail and/or password invalid")
+                return;
             }
-            const data = await response.json();
-            return DataAdapters.userMainFromAPI(data.data);
-        } 
-        catch (error) {
-            console.error('Il y a eu un problème avec la récupération des données:', error);
-        }
+            const token = loginData.body.token;
+            // enregistrer le token quelque part
+            return fetch("http://localhost:3001/api/v1/user/profile", token)
+            .then(response => response.json())
+            .then(userData => {
+                const firstName = userData.body.firstName;
+                const lastName = userData.body.lastName;
+                // enregistrer firstName et lastName quelque part
+            });
+            })
+        .catch(e => {
+            console.log('Il y a eu un problème avec la récupération des données:',e);
+        });
+        //DataAdapters.userMainFromAPI()
     }
 }
 export default ReceptAPI;
