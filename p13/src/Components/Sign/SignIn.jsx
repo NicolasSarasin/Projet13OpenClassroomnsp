@@ -1,20 +1,26 @@
+/* eslint-disable no-undef */
 import "../../css/main.css"
 import React, { useEffect, useState } from 'react';
 import Footer from "../Footer/Footer.jsx"
 import HeaderNavigation1  from "../HeaderNavigations/HeaderNavigations.jsx"
-import ReceptAPI from "../../Services/ReceptAPI.js";
+import UserAPI from "../../Services/UserAPI.js";
 //import { useSelector, useStore } from "react-redux";
 //import { SuperCremeux } from "./models";
 
 function SignToSite(){
     const [isUserToDataBaseCorect, setIsUserToDataBaseCorect] = useState(false);
+    const {token, setToken} = useState(null);
+    const {user, setUser} = useState({
+        firstName: "",
+        lastName: ""
+    });
     const [userMain, setUserMain] = useState({
         firstName:"",
         lastName:"",
     });
     useEffect(() => {
         const fetchData = async () => {
-        const dataUserMain = await ReceptAPI.getUserMain();
+        const dataUserMain = await UserAPI.getUserMain();
         setUserMain(dataUserMain); // Set the fetched data
         };
         fetchData();  // Invoke the fetch function
@@ -23,27 +29,64 @@ function SignToSite(){
     useEffect(() => {
         document.title = "Argent Bank - Home Page"; // Changer le titre ici
     }, []);
-    fetch("http://localhost:3001/api/v1/user/login", postMessage)
-    .then(response =>  response.json())
-    .then(loginData => {
-        if(loginData.status !== "200")
-        {
-            console.log("Mail and/or password invalid")
-            return;
+
+    const fromLoginAPI = (data) => {
+        return {
+            token: data.token
+        };
+    };
+    const fromUserAPI = (data) => {
+        return {
+            firstName: data.firstName,
+            lastName: data.lastName
+        };
+    };
+
+    /**/const login = async (userName, password) => {
+        // appel API login
+        try {
+            const response = await fetch("http://localhost:3001/api/v1/user/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email: userName, password }),
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                const loginData = usersDataAdapter.fromLoginAPI(data);
+                setToken(loginData.token);
+            } else {
+                console.error("Échec de la connexion :", data.message);
+            }
+        } catch (error) {
+            console.error("Erreur réseau ou de parsing :", error);
         }
-        const token = loginData.body.token;
-        // enregistrer le token quelque part
-        return fetch("http://localhost:3001/api/v1/user/profile", token)
-        .then(response => response.json())
-        .then(userData => {
-            const firstName = userData.body.firstName;
-            const lastName = userData.body.lastName;
-            // enregistrer firstName et lastName quelque part
-        });
-        })
-    .catch(e => {
-        console.log('Il y a eu un problème avec la récupération des données:',e);
-    });
+        // appel API get user
+        try {
+            const response2 = await fetch("http://localhost:3001/api/v1/user/profile", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email: userName, password }),
+            });
+    
+            const data2 = await response2.json();
+    
+            if (response2.ok) {
+                const loginData = usersDataAdapter.fromLoginAPI(data2);
+                setToken(loginData.token);
+            } else {
+                console.error("Échec de la connexion :", data2.message);
+            }
+        } catch (error) {
+            console.error("Erreur réseau ou de parsing :", error);
+        };
+    };
+    
     const FormToNextPage = () =>{
         let FirstName = document.getElementById("username").value;
         let Password = document.getElementById("password").value;

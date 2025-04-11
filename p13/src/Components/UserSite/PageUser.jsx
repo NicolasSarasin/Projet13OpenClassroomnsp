@@ -2,7 +2,7 @@ import "../../css/main.css";
 import React, { useEffect, useState } from 'react';
 import Footer from "../Footer/Footer.jsx";
 import { HeaderNavigation2 } from "../HeaderNavigations/HeaderNavigations.jsx"
-import ReceptAPI from "../../Services/ReceptAPI.js";
+import UserAPI from "../../Services/UserAPI.js";
 /*import { useSelector, useStore } from "react-redux";
 import { SuperCremeux } from "./models";*/
 
@@ -14,7 +14,7 @@ function UserSite(){
     });
     useEffect(() => {
         const fetchData = async () => {
-          const dataUserMain = await ReceptAPI.getUserMain();
+          const dataUserMain = ""/*await UserAPI.getUserMain()*/;
           setUserMain(dataUserMain); // Set the fetched data
         };
         fetchData();  // Invoke the fetch function
@@ -30,33 +30,18 @@ function UserSite(){
     }
     const handleSave= ()=> {
         setIsDetailsVisible(false);
+        EditValueInputs();
     }
-    fetch("http://localhost:3001/api/v1/user/login", postMessage)
-    .then(response =>  response.json())
-    .then(loginData => {
-        if(loginData.status !== "200")
-        {
-            console.log("Mail and/or password invalid")
-            return;
-        }
-        const token = loginData.body.token;
-        // enregistrer le token quelque part
-        return fetch("http://localhost:3001/api/v1/user/profile", token)
-        .then(response => response.json())
-        .then(userData => {
-            const firstName = userData.body.firstName;
-            const lastName = userData.body.lastName;
-            // enregistrer firstName et lastName quelque part
-        });
-        })
-    .catch(e => {
-        console.log('Il y a eu un problème avec la récupération des données:',e);
-    });
+    
     const EditValueInputs= ()=>{
-        const inputValue1=""
-        const inputValue2=""
-        const Save=""
-        const Cancle=""
+        const inputValue1 = document.getElementById("username").value;
+        const inputValue2 = document.getElementById("lastname").value;
+        const Save = document.getElementById("save-button");
+        const Cancel = document.getElementById("cancel-button").value;
+        if(Save){
+            //inputValue1 and inputValue2 pushed to modifiatein data base;
+        }
+        else{}
     };
     return(
         <div className="html body">
@@ -78,10 +63,10 @@ function UserSite(){
                             <div className="input-wrapper-2">
                                 <button type="button" onClick={() =>
                                     handleSave()
-                                } className="save-button" >Save</button>
+                                } className="save-button" id="save-button">Save</button>
                                 <button type="button" onClick={() =>
                                     handleCancel()
-                                } className="cancel-button" >Cancel</button>
+                                } className="cancel-button" id="cancel-button">Cancel</button>
                             </div>
                         </form>
                     </div>
