@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 import "../../css/main.css"
 import React, { useEffect, useState } from 'react';
@@ -10,39 +11,21 @@ import UserAPI from "../../Services/UserAPI.js";
 function SignToSite(){
     const [isUserToDataBaseCorect, setIsUserToDataBaseCorect] = useState(false);
     const {token, setToken} = useState(null);
-    const {user, setUser} = useState({
-        firstName: "",
-        lastName: ""
-    });
-    const [userMain, setUserMain] = useState({
-        firstName:"",
-        lastName:"",
-    });
+    const [user, setUser] = useState(null)
+    const emailUser = document.getElementById("username");
+    const passwordUser = document.getElementById("password");
     useEffect(() => {
         const fetchData = async () => {
-        const dataUserMain = await UserAPI.getUserMain();
-        setUserMain(dataUserMain); // Set the fetched data
+            const dataUserMain = await UserAPI.LoginAPI(emailUser, passwordUser);
+            setUser(dataUserMain); // Set the fetched data
         };
         fetchData();  // Invoke the fetch function
-    });
-    //const store = useStore();
+    },/*[emailUser, passwordUser, setUser]*/);
     useEffect(() => {
         document.title = "Argent Bank - Home Page"; // Changer le titre ici
     }, []);
 
-    const fromLoginAPI = (data) => {
-        return {
-            token: data.token
-        };
-    };
-    const fromUserAPI = (data) => {
-        return {
-            firstName: data.firstName,
-            lastName: data.lastName
-        };
-    };
-
-    /**/const login = async (userName, password) => {
+    const login = async (userName, password) => {
         // appel API login
         try {
             const response = await fetch("http://localhost:3001/api/v1/user/login", {
@@ -77,7 +60,7 @@ function SignToSite(){
             const data2 = await response2.json();
     
             if (response2.ok) {
-                const loginData = usersDataAdapter.fromLoginAPI(data2);
+                const loginData = usersDataAdapter.fromUserAPI(data2);
                 setToken(loginData.token);
             } else {
                 console.error("Échec de la connexion :", data2.message);
@@ -86,21 +69,33 @@ function SignToSite(){
             console.error("Erreur réseau ou de parsing :", error);
         };
     };
+
+    const fromLoginAPI = (data) => {
+        return {
+            token: data.token
+        };
+    };
+    const fromUserAPI = (data) => {
+        return {
+            firstName: data.firstName,
+            lastName: data.lastName
+        };
+    };
     
-    const FormToNextPage = () =>{
+    /*const FormToNextPage = () =>{
         let FirstName = document.getElementById("username").value;
         let Password = document.getElementById("password").value;
         if (Password === userMain.password && FirstName === userMain.firstName){
             setIsUserToDataBaseCorect(true);
         }
         else{
-            if (Password === userMain.password && FirstName !== userMain.firstName){
+            if (Password === user.password && FirstName !== user.firstName){
                 setIsUserToDataBaseCorect(false);
             }
-            else if (Password !== userMain.password && FirstName === userMain.firstName){
+            else if (Password !== user.password && FirstName === user.firstName){
                 setIsUserToDataBaseCorect(false);
             }
-            else if (Password !== userMain.password && FirstName !== userMain.firstName){
+            else if (Password !== user.password && FirstName !== user.firstName){
                 setIsUserToDataBaseCorect(false);
             }
         }
@@ -134,7 +129,7 @@ function SignToSite(){
             errorMessage2.style.display="block";
             return false;
         } 
-    }
+    }*/
     return(
         <div className="html body">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
@@ -166,7 +161,7 @@ function SignToSite(){
                         {/*PLACEHOLDER DUE TO STATIC SITE
                         <Link to="/profile" className="sign-in-button">Sign In</Link>*/}
                         {/*SHOULD BE THE BUTTON BELOW */} 
-                        <button onClick={()=>FormToNextPage()} /*onClick={() => store.dispatch({type: 'ADD_PRODUCT', payload: SuperCremeux})}*/ className="sign-in-button" formaction="/profile">Sign In </button>
+                        <button onClick={()=>login("username".valueOf,"password".valueOf)} /*onClick={() => store.dispatch({type: 'ADD_PRODUCT', payload: SuperCremeux})}*/ className="sign-in-button" formAction="/profile">Sign In </button>
                     </form>
                 </section>
             </main>

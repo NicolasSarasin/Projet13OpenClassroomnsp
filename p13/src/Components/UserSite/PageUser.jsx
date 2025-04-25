@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import Footer from "../Footer/Footer.jsx";
 import { HeaderNavigation2 } from "../HeaderNavigations/HeaderNavigations.jsx"
 import UserAPI from "../../Services/UserAPI.js";
-/*import { useSelector, useStore } from "react-redux";
-import { SuperCremeux } from "./models";*/
+//import { dispatch } from '@reduxjs/toolkit';
+//import { useSelector, useStore } from "react-redux";
+/*import { SuperCremeux } from "./models";*/
 
 function UserSite(){
     const [isDetailsVisible, setIsDetailsVisible] = useState(false);
@@ -14,7 +15,7 @@ function UserSite(){
     });
     useEffect(() => {
         const fetchData = async () => {
-          const dataUserMain = ""/*await UserAPI.getUserMain()*/;
+          const dataUserMain = await UserAPI.LoginAPI();
           setUserMain(dataUserMain); // Set the fetched data
         };
         fetchData();  // Invoke the fetch function
@@ -32,7 +33,7 @@ function UserSite(){
         setIsDetailsVisible(false);
         EditValueInputs();
     }
-    
+    //const dispatch = useDispatch();
     const EditValueInputs= ()=>{
         const inputValue1 = document.getElementById("username").value;
         const inputValue2 = document.getElementById("lastname").value;
@@ -40,6 +41,8 @@ function UserSite(){
         const Cancel = document.getElementById("cancel-button").value;
         if(Save){
             //inputValue1 and inputValue2 pushed to modifiatein data base;
+            /*dispatch(inputValue1);
+            dispatch(inputValue2);*/
         }
         else{}
     };
