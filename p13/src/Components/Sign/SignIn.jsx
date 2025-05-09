@@ -12,20 +12,20 @@ function SignToSite(){
     const [isUserToDataBaseCorect, setIsUserToDataBaseCorect] = useState(false);
     const {token, setToken} = useState(null);
     const [user, setUser] = useState(null)
-    const emailUser = document.getElementById("username");
-    const passwordUser = document.getElementById("password");
-    useEffect(() => {
-        const fetchData = async () => {
-            const dataUserMain = await UserAPI.LoginAPI(emailUser, passwordUser);
-            setUser(dataUserMain); // Set the fetched data
-        };
-        fetchData();  // Invoke the fetch function
-    },/*[emailUser, passwordUser, setUser]*/);
+    const login = async () => {
+        const emailUser = document.getElementById("username");
+        const passwordUser = document.getElementById("password");
+        const dataUserMain = await UserAPI.LoginAPI(emailUser.value, passwordUser.value);
+        //setUser(dataUserMain); Set the fetched data
+    };
     useEffect(() => {
         document.title = "Argent Bank - Home Page"; // Changer le titre ici
     }, []);
-
-    const login = async (userName, password) => {
+    /*const TokenForNextPage = async () =>{
+        const DataToken = await UserAPI.LoginAPI(emailUser.value, passwordUser.value);
+        setToken(DataToken);
+    };*/
+    /*const login = async (userName, password) => {
         // appel API login
         try {
             const response = await fetch("http://localhost:3001/api/v1/user/login", {
@@ -80,56 +80,8 @@ function SignToSite(){
             firstName: data.firstName,
             lastName: data.lastName
         };
-    };
+    };*/
     
-    /*const FormToNextPage = () =>{
-        let FirstName = document.getElementById("username").value;
-        let Password = document.getElementById("password").value;
-        if (Password === userMain.password && FirstName === userMain.firstName){
-            setIsUserToDataBaseCorect(true);
-        }
-        else{
-            if (Password === user.password && FirstName !== user.firstName){
-                setIsUserToDataBaseCorect(false);
-            }
-            else if (Password !== user.password && FirstName === user.firstName){
-                setIsUserToDataBaseCorect(false);
-            }
-            else if (Password !== user.password && FirstName !== user.firstName){
-                setIsUserToDataBaseCorect(false);
-            }
-        }
-    }
-    const UserToDataBase = () => {
-        let firstName = document.getElementById("username").value;
-        let password = document.getElementById("password").value;
-        const errorMessage1 = document.getElementById("ErrorMessage1");
-        const errorMessage2 = document.getElementById("ErrorMessage2");
-        if(password === userMain.password && firstName === userMain.firstName){
-            console.log(userMain);
-            errorMessage1.style.display="none";
-            errorMessage2.style.display="none";
-            return true;
-        }
-        else if (password === userMain.password && firstName !== userMain.firstName){
-            console.log('Il y a eu un problème avec la récupération des données:');
-            errorMessage1.style.display="block";
-            errorMessage2.style.display="none";
-            return false;
-        }
-        else if (password !== userMain.password && firstName === userMain.firstName){
-            console.log('Il y a eu un problème avec la récupération des données:');
-            errorMessage1.style.display="none";
-            errorMessage2.style.display="block";
-            return false;
-        }
-        else {
-            console.log('Il y a eu un problème avec la récupération des données:');
-            errorMessage1.style.display="block";
-            errorMessage2.style.display="block";
-            return false;
-        } 
-    }*/
     return(
         <div className="html body">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
@@ -143,14 +95,14 @@ function SignToSite(){
                             <label htmlFor="username">Username</label>
                             <input type="text" id="username" required/>
                             <div className={(isUserToDataBaseCorect ? "DisplayMessageError" : "NoneMessageError")}/*"ErrorMessage"*/ id="ErrorMessage1">
-                                <p>Please to verify your username</p>
+                                <p>Please, verify your username</p>
                             </div>
                         </div>
                         <div className="input-wrapper">
                             <label htmlFor="password">Password</label>
                             <input type="password" id="password" required/>
                             <div className={(isUserToDataBaseCorect ? "DisplayMessageError" : "NoneMessageError")}/*"ErrorMessage"*/ id="ErrorMessage2">
-                                <p>Please to verify your password</p>
+                                <p>Please, verify your password</p>
                             </div>
                         </div>
                         <div className="input-remember">
@@ -160,8 +112,12 @@ function SignToSite(){
                         </div>
                         {/*PLACEHOLDER DUE TO STATIC SITE
                         <Link to="/profile" className="sign-in-button">Sign In</Link>*/}
-                        {/*SHOULD BE THE BUTTON BELOW */} 
-                        <button onClick={()=>login("username".valueOf,"password".valueOf)} /*onClick={() => store.dispatch({type: 'ADD_PRODUCT', payload: SuperCremeux})}*/ className="sign-in-button" formAction="/profile">Sign In </button>
+                        {/*SHOULD BE THE BUTTON BELOW */}
+                        {/*formAction="/profile"*/} 
+                        <button onClick={()=>login()}/*onClick={() => store.dispatch({type: 'ADD_PRODUCT', payload: SuperCremeux})}*/
+                            className="sign-in-button">
+                            Sign In 
+                        </button>
                     </form>
                 </section>
             </main>

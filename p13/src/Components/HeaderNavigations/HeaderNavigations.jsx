@@ -1,5 +1,5 @@
 import "../../css/main.css"
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from "react-router-dom"
 
 function HeaderNavigation1(){
@@ -26,6 +26,7 @@ function HeaderNavigation1(){
     );
 }
 function HeaderNavigation2(){
+    const {UserToken, SetUserToken} = useState(null);
     return(
         <div className="html">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
@@ -41,7 +42,7 @@ function HeaderNavigation2(){
                 <div>
                     <Link className="main-nav-item" to="/profile">
                         <i className="fa fa-user-circle"></i>
-                        Tony
+                        {/*SetUserToken(loginData.token)*/}Tony
                     </Link>
                     <Link className="main-nav-item" to="/">
                         <i className="fa fa-sign-out"></i>

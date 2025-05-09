@@ -8,8 +8,9 @@ import UserAPI from "../../Services/UserAPI.js";
 /*import { SuperCremeux } from "./models";*/
 
 function UserSite(){
-    const [isDetailsVisible, setIsDetailsVisible] = useState(false);
-    const [userMain, setUserMain] = useState({
+    const {isDetailsVisible, setIsDetailsVisible} = useState(false);
+    const {userMain, setUserMain} = useState({
+        //token:LoginAPI.SetUserToken(loginData.token),
         firstName:"",
         lastName:"",
     });
@@ -39,7 +40,7 @@ function UserSite(){
         const inputValue2 = document.getElementById("lastname").value;
         const Save = document.getElementById("save-button");
         const Cancel = document.getElementById("cancel-button").value;
-        if(Save){
+        if(Save.click && inputValue1 && inputValue2){
             //inputValue1 and inputValue2 pushed to modifiatein data base;
             /*dispatch(inputValue1);
             dispatch(inputValue2);*/
