@@ -1,4 +1,5 @@
 import "../../css/main.css";
+//import {useStore} from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import Footer from "../Footer/Footer.jsx";
 import { HeaderNavigation2 } from "../HeaderNavigations/HeaderNavigations.jsx"
@@ -8,15 +9,18 @@ import UserAPI from "../../Services/UserAPI.js";
 /*import { SuperCremeux } from "./models";*/
 
 function UserSite(){
-    const {isDetailsVisible, setIsDetailsVisible} = useState(false);
-    const {userMain, setUserMain} = useState({
-        //token:LoginAPI.SetUserToken(loginData.token),
-        firstName:"",
-        lastName:"",
+    //const store = useStore();
+    const [isDetailsVisible, setIsDetailsVisible] = useState(false);
+    const [userMain, setUserMain] = useState(/*store.getState().list,*/ {
+        token:UserAPI.LoginAPI.token,
+        body:{
+            firstName:"",
+            lastName:"",
+        }
     });
     useEffect(() => {
         const fetchData = async () => {
-          const dataUserMain = await UserAPI.LoginAPI();
+          const dataUserMain = await UserAPI.ProfileAPI();
           setUserMain(dataUserMain); // Set the fetched data
         };
         fetchData();  // Invoke the fetch function
@@ -45,8 +49,13 @@ function UserSite(){
             /*dispatch(inputValue1);
             dispatch(inputValue2);*/
         }
-        else{}
+        else{
+            return null;
+        }
     };
+    /*if(userMain.token){
+        //return;
+    }*/
     return(
         <div className="html body">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
@@ -54,7 +63,7 @@ function UserSite(){
                 <main className="main bg-dark">
                     {/*Div header*/}
                     <div className={(isDetailsVisible ? "Hidden" : "header")}>
-                        <h1>Welcome back<br /> Tony Jarvis!{/*userMain.firstName + " " + userMain.lastName + "!"*/}</h1>
+                        <h1>Welcome back<br /> Tony Jarvis!{/*userMain.body.firstName + " " + userMain.body.lastName + "!"*/}</h1>
                         <button className="edit-button" onClick={()=>handleEditName()} >Edit Name</button>
                     </div>
                     {/*Div Edit-Name*/}

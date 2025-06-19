@@ -1,16 +1,10 @@
 import DataAdapters from "./DataAdapters";
-import useState from 'react';
-
 
 const UserAPI = {
     LoginAPI : async function (email, password) {
-        const {UserToken, SetUserToken} = useState(null);
-        const {UserName, SetUserName} = useState(null)
-            /*firstName:"",
-            lastName:""*/
         const formData = {
-            email:String(email),
-            password:String(password),
+            email:email,
+            password:password,
         };
         const loginResponse = await fetch("http://localhost:3001/api/v1/user/login",{
             method:"post",
@@ -22,37 +16,43 @@ const UserAPI = {
         console.log("LoginResponse",loginResponse);
         if(!loginResponse.ok){
             console.error("Mail ou mot de passe invalide");
-            SetUserToken(null);
-            SetUserName(null);
-            return false;
+            return null;
         }
         //return true;
         const loginData = await loginResponse.json();
-        //token dans le state pour après et utiliser le token pour le /profile
-        const token = loginData.body.token;
-        SetUserToken(loginData.token);
-        console.log("Token",token)
-        SetUserName("");
-        return true;
-        /*const profileResponse = await fetch("http://localhost:3001/api/v1/user/profile", {
+        console.log("logindata",loginData);
+        if (!loginData || !loginData.body || !loginData.body.token) {
+            console.error("Réponse invalide du backend", loginData);
+            return null;
+        }
+        return loginData.body.token;
+        /*userToken = loginData.body.token;
+        console.log("Token",loginData);
+        
+
+        DataAdapters.userLoginAPI(loginData.data);
+        DataAdapters.userProfileAPI(profileData.data);
+        return {
+            token:userToken,
+            user:profileData.data
+        } ;*/
+    },
+    ProfileAPI : async function(token) {
+        const loginToken= localStorage.setItem("Token",token);
+        const profileResponse = await fetch("http://localhost:3001/api/v1/user/profile", {
             method: "post",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${loginToken}`
             }
         });
         if (!profileResponse.ok){
-            console.error("Mail ou mot de passe invalide");
+            console.error("Token invalide");
             return false;
         }
         const profileData = await profileResponse.json();
-        SetUserName(profileData)
-        return {
-            DataAdapters:DataAdapters.data,
-        };*/
+        console.log("profileData",profileData)
     }
-    //Profile : async function (){}
-    //Profile(setStateToken(token),firstName,lastName);
 }
 
 export default UserAPI;

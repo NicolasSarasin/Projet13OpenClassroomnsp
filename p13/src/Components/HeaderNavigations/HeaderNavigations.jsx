@@ -1,6 +1,7 @@
 import "../../css/main.css"
-import React, {useState} from 'react';
-import {Link} from "react-router-dom"
+import React, {useState, useEffect} from 'react';
+import {Link, useParams} from "react-router-dom";
+import UserAPI from "../../Services/UserAPI";
 
 function HeaderNavigation1(){
     return(
@@ -26,7 +27,21 @@ function HeaderNavigation1(){
     );
 }
 function HeaderNavigation2(){
-    const {UserToken, SetUserToken} = useState(null);
+    const {mail, password}= useParams;
+    const [userMain, setUserMain] = useState({
+        token:UserAPI.LoginAPI(mail,password),
+        body:{
+            firstName:"",
+            lastName:"",
+        }
+    });
+    useEffect(() => {
+	  const fetchData = async () => {
+		const dataUserHeader = await UserAPI.ProfileAPI();
+		setUserMain(dataUserHeader); // Set the fetched data
+	  };
+	  fetchData();  // Invoke the fetch function
+	});
     return(
         <div className="html">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
@@ -42,7 +57,7 @@ function HeaderNavigation2(){
                 <div>
                     <Link className="main-nav-item" to="/profile">
                         <i className="fa fa-user-circle"></i>
-                        {/*SetUserToken(loginData.token)*/}Tony
+                        {userMain.body.firstName/*Tony*/}
                     </Link>
                     <Link className="main-nav-item" to="/">
                         <i className="fa fa-sign-out"></i>
