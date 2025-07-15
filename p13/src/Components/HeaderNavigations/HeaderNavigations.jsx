@@ -1,8 +1,9 @@
 import "../../css/main.css"
 import React, {useState, useEffect} from 'react';
-import {Link, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import UserAPI from "../../Services/UserAPI";
-
+import logo from "../../assets/img/argentBankLogo.png"
+import { useNavigate } from "react-router-dom";
 function HeaderNavigation1(){
     return(
         <div>
@@ -11,7 +12,7 @@ function HeaderNavigation1(){
                 <Link className="main-nav-logo" to="/">
                     <img
                     className="main-nav-logo-image"
-                    src="./img/argentBankLogo.png"
+                    src={logo}
                     alt="Argent Bank Logo"
                     />
                     <h1 className="sr-only">Argent Bank</h1>
@@ -27,21 +28,28 @@ function HeaderNavigation1(){
     );
 }
 function HeaderNavigation2(){
-    const {mail, password}= useParams;
-    const [userMain, setUserMain] = useState({
-        token:UserAPI.LoginAPI(mail,password),
+    const navigate = useNavigate();
+    const [userMain, setUserMain] = useState(null/*{
+       token:localStorage.getItem("Token"),
         body:{
             firstName:"",
             lastName:"",
         }
-    });
+    }*/);
     useEffect(() => {
-	  const fetchData = async () => {
-		const dataUserHeader = await UserAPI.ProfileAPI();
-		setUserMain(dataUserHeader); // Set the fetched data
-	  };
-	  fetchData();  // Invoke the fetch function
+        const token = localStorage.getItem("Token");
+        if(token == null){
+            navigate("/login");
+        }
+        const fetchData = async () => {
+            const dataUserHeader = await UserAPI.ProfileAPI(localStorage.getItem("Token"));
+            setUserMain(dataUserHeader); // Set the fetched data
+        };
+        fetchData();  // Invoke the fetch function
 	});
+    if (!userMain || !userMain.body){
+        return <p>Loading</p>;
+    }
     return(
         <div className="html">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
@@ -49,7 +57,7 @@ function HeaderNavigation2(){
                 <Link className="main-nav-logo" to="/">
                     <img
                     className="main-nav-logo-image"
-                    src="./img/argentBankLogo.png"
+                    src={logo}
                     alt="Argent Bank Logo"
                     />
                     <h1 className="sr-only">Argent Bank</h1>
@@ -57,7 +65,7 @@ function HeaderNavigation2(){
                 <div>
                     <Link className="main-nav-item" to="/profile">
                         <i className="fa fa-user-circle"></i>
-                        {userMain.body.firstName/*Tony*/}
+                        {userMain.body.firstName}
                     </Link>
                     <Link className="main-nav-item" to="/">
                         <i className="fa fa-sign-out"></i>

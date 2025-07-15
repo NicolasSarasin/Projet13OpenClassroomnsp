@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 import "../../css/main.css"
 import React, { useEffect, useState } from 'react';
 import Footer from "../Footer/Footer.jsx"

@@ -1,7 +1,8 @@
 //import { useStore } from "react-redux";
-import { Formulari } from "./Formulari";
+//import { Formulari } from "./Formulari";
 import {createSlice} from "@reduxjs/toolkit";
 const form = createSlice({
+    name:"form",
     form:"",
     initialisation:{},reducers: {
         UpdateForm:(currentState,action)=>{

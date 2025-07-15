@@ -38,7 +38,9 @@ const UserAPI = {
         } ;*/
     },
     ProfileAPI : async function(token) {
-        const loginToken= localStorage.setItem("Token",token);
+        const loginToken = token;
+        /*const firstName = "";
+        const lastName = "";*/
         const profileResponse = await fetch("http://localhost:3001/api/v1/user/profile", {
             method: "post",
             headers: {
@@ -52,6 +54,29 @@ const UserAPI = {
         }
         const profileData = await profileResponse.json();
         console.log("profileData",profileData)
+        return profileData;
+    },
+    ChangingProfileAPI : async function(token,firstName,lastName) {
+        const formData = {
+            firstName: firstName,
+            lastName: lastName,
+        }
+        const loginToken = token;
+        const changingProfileUserResponse = await fetch("http://localhost:3001/api/v1/user/profile",{
+            method: "put",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${loginToken}`
+            },
+            body:JSON.stringify(formData),
+        });
+        if (!changingProfileUserResponse.ok){
+            console.error("Token invalide");
+            return false;
+        }
+        const changingProfileUser = await changingProfileUserResponse.json();
+        console.log(changingProfileUser);
+        return true;
     }
 }
 

@@ -1,6 +1,7 @@
 //import { useStore } from "react-redux";
 import {createSlice} from "@reduxjs/toolkit";
 const button = createSlice({
+    name:"button",
     button:"",
     initialisation:{},
     reducers: {
