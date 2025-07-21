@@ -26,16 +26,6 @@ const UserAPI = {
             return null;
         }
         return loginData.body.token;
-        /*userToken = loginData.body.token;
-        console.log("Token",loginData);
-        
-
-        DataAdapters.userLoginAPI(loginData.data);
-        DataAdapters.userProfileAPI(profileData.data);
-        return {
-            token:userToken,
-            user:profileData.data
-        } ;*/
     },
     ProfileAPI : async function(token) {
         const loginToken = token;
@@ -53,31 +43,39 @@ const UserAPI = {
             return false;
         }
         const profileData = await profileResponse.json();
-        console.log("profileData",profileData)
         return profileData;
     },
-    ChangingProfileAPI : async function(token,firstName,lastName) {
-        const formData = {
-            firstName: firstName,
-            lastName: lastName,
-        }
-        const loginToken = token;
-        const changingProfileUserResponse = await fetch("http://localhost:3001/api/v1/user/profile",{
-            method: "put",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${loginToken}`
-            },
-            body:JSON.stringify(formData),
-        });
-        if (!changingProfileUserResponse.ok){
-            console.error("Token invalide");
-            return false;
-        }
-        const changingProfileUser = await changingProfileUserResponse.json();
-        console.log(changingProfileUser);
-        return true;
+    ChangingProfileAPI: async function(token, firstName, lastName) {
+    const formData = {
+        firstName: firstName,
+        lastName: lastName,
+    };
+
+    const loginToken = token;
+    console.log("formData", formData);
+
+    const changingProfileUserResponse = await fetch("http://localhost:3001/api/v1/user/profile", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${loginToken}`
+        },
+        body: JSON.stringify(formData), // ✅ NE PAS COMMENTER
+    });
+
+    if (!changingProfileUserResponse.ok) {
+        console.error("Token invalide");
+        return null; // <- mieux que false pour la cohérence
     }
+
+    const changingProfileUser = await changingProfileUserResponse.json();
+    console.log("Profile updated:", changingProfileUser);
+
+    // Facultatif : à condition que ce soit une fonction utile
+    DataAdapters.userProfileAPI(changingProfileUser.body);
+
+    return changingProfileUser; // ✅ retournes les données
+}
 }
 
 export default UserAPI;
