@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Footer from "../Footer/Footer.jsx";
 import HeaderNavigation2 from "../HeaderNavigations/HeaderNavigation2.jsx";
 import UserAPI from "../../Services/UserAPI.js";
+import { Provider } from "react-redux";
+import  store  from '../../App/store.js';/**/
 //import { useNavigate } from "react-router-dom";
 function UserSite() {
     //const navigate = useNavigate();
@@ -13,7 +15,8 @@ function UserSite() {
     const [lastName, setLastName] = useState("");
     useEffect(() => {
         const token = localStorage.getItem("Token");
-        if (token == null) {
+        const sessionToken = sessionStorage.getItem("Token");
+        if (token == null && sessionToken== null) {
             return;
         }
         document.title = "Argent Bank - Home Page";
@@ -28,15 +31,6 @@ function UserSite() {
         };
         fetchData();
     },[]);
-    /*useEffect(() => {
-        const firstName = document.getElementById("firstname");
-        const lastName = document.getElementById("lastname");
-        const fetchDataPut = async () => {
-            const dataUserPut= await UserAPI.ChangingProfileAPI(localStorage.getItem("Token"),firstName,lastName);
-            setUserMain(dataUserPut);
-        };
-        fetchDataPut(); //Invoke the fetch function with put method
-    },[]);*/
     const handleEditName = () => {
         setIsDetailsVisible(true);
     };
@@ -63,8 +57,10 @@ function UserSite() {
     };
     if (!userMain || !userMain.body) {
         return <p>Loading...</p>;
-    }
+    }//<Provider store = {store}></Provider>
+    //
     return (
+        <Provider store = {store}>
         <div className="html body">
             <link
                 rel="stylesheet"
@@ -149,6 +145,7 @@ function UserSite() {
             </main>
             <Footer />
         </div>
+        </Provider>
     );
 }
 export default UserSite;

@@ -2,7 +2,7 @@
 import "../../css/main.css"
 import React, { useEffect, useState } from 'react';
 import Footer from "../Footer/Footer.jsx"
-import HeaderNavigation1  from "../HeaderNavigations/HeaderNavigations.jsx"
+import HeaderNavigation1 from '../HeaderNavigations/HeaderNavigation1.jsx';
 import UserAPI from "../../Services/UserAPI.js";
 import { useNavigate } from "react-router-dom";
 //import { useSelector, useStore } from "react-redux";
@@ -17,6 +17,7 @@ function SignToSite(){
     const login = async () => {
         const emailUser = document.getElementById("username");
         const passwordUser = document.getElementById("password");
+        const checkBox = document.getElementById("remember-me").checked;
         console.log("beafore loginApi");
         const token = await UserAPI.LoginAPI(emailUser.value, passwordUser.value);
         if (token == null){
@@ -25,8 +26,16 @@ function SignToSite(){
         }
         else{
             setIsLoginError(false);
-            localStorage.setItem("Token",token);
-            navigate("/profile");
+            if(checkBox){
+                sessionStorage.setItem("Token",token);
+                navigate("/profile");
+            }
+            else{
+                localStorage.setItem("Token",token);
+                navigate("/profile");
+            }
+            /*localStorage.setItem("Token",token);
+            navigate("/profile");*/
         }
         //setUser(LoginResult.token); //Set the fetched data
     };
@@ -45,7 +54,7 @@ function SignToSite(){
                     <form>
                         <div className="input-wrapper">
                             <label htmlFor="username">Username</label>
-                            <input type="text" id="username" required/>
+                            <input type="text" id="username" required />
                             
                         </div>
                         <div className="input-wrapper">
