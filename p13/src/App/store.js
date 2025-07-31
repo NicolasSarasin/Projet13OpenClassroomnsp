@@ -1,22 +1,24 @@
-import {combineReducers,configureStore} from "@reduxjs/toolkit";
-import button from "../feature/button/button.js";
+import { combineReducers, configureStore } from "@reduxjs/toolkit"; 
+import buttonSave from "../feature/button/buttonSaveSlice";
+import buttonCancel from "../feature/button/buttonCancelSlice";
+import buttonEdit from "../feature/button/buttonEditSlice";
 import form from "../feature/form/form.js";
-let state={
-    buttonSave:{},
-    buttonCancel:{},
-    buttonSignIn:{},
-    formulari:{},
-}
-export const store = configureStore({
-    preloadedState : state,
+
+const store = configureStore({
     reducer: combineReducers({
-        buttonSave: button.reducer,
-        buttonCancel: button.reducer,
-        buttonSignIn: button.reducer,
+        buttonSave: buttonSave.reducer,
+        buttonCancel: buttonCancel.reducer,
+        buttonEdit: buttonEdit.reducer,
         formulari: form.reducer,
+        // ⚠️ StorageToken n'est pas un reducer, donc à déplacer ailleurs
     }),
-    middleWare:[(store)=>(next)=>(action)=>{
-        console.log("Action", action);
-        next(action);
-    }]
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat([
+            (store) => (next) => (action) => {
+                console.log("Action", action);
+                return next(action);
+            },
+        ]),
 });
+
+export default store;

@@ -4,18 +4,18 @@ const initialState = {
     clicked: false,
 };
 
-const buttonSlice = createSlice({
+export const buttonEditSlice = createSlice({
     name: "button",
     initialState,
     reducers: {
-        click: (state) => {
+        clickEdit: (state) => {
             state.clicked = true;
         },
-        reset: (state) => {
+        resetEdit: (state) => {
             state.clicked = false;
         },
     },
 });
 
-export const { click, reset } = buttonSlice.actions;
-export default buttonSlice;
+export const { clickEdit, resetEdit } = buttonEditSlice.actions;
+export default buttonEditSlice;

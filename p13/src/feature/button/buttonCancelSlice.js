@@ -4,18 +4,18 @@ const initialState = {
     clicked: false,
 };
 
-const buttonSlice = createSlice({
+export const buttonCancelSlice = createSlice({
     name: "button",
     initialState,
     reducers: {
-        click: (state) => {
+        clickCancel: (state) => {
             state.clicked = true;
         },
-        reset: (state) => {
+        resetCancel: (state) => {
             state.clicked = false;
         },
     },
 });
 
-export const { click, reset } = buttonSlice.actions;
-export default buttonSlice;
+export const { clickCancel, resetCancel } = buttonCancelSlice.actions;
+export default buttonCancelSlice

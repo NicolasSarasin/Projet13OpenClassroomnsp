@@ -2,7 +2,7 @@ import iconChat from './assets/img/icon-chat.png';
 import iconMoney from './assets/img/icon-money.png';
 import iconSecurity from './assets/img/icon-security.png';
 import Footer from "./Components/Footer/Footer.jsx"
-import HeaderNavigation1 from './Components/HeaderNavigations/HeaderNavigations.jsx';
+import HeaderNavigation1 from './Components/HeaderNavigations/HeaderNavigation1.jsx';
 import './css/main.css';
 //import ReceptAPI from "./Services/ReceptAPI.js";
 import { useEffect } from "react";

@@ -54,10 +54,17 @@
 .main-nav-item {
   text-decoration: none;
   margin-right: 0.5rem;
+  display: flex;
+  gap: 5px;
 }
 
 .main-nav-item:hover {
   text-decoration: underline;
+}
+
+.main-nav-container{
+  display: flex;
+  gap: 10px;
 }
 
 .main-nav-logo {
@@ -282,19 +289,20 @@
 }
 
 .formulariEdit-Name .inputs{
-  width: 150px;
+  width: 200px;
 }
 
 .save-button, .cancel-button {
-  width: 150px;
+  width: 125px;
 }
 
 .input-wrapper-2{
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   margin-bottom: 1rem;
   padding-left: 37%;
   padding-right: 37%;
+  gap: 20px;
 }
 
 .input-wrapper-2 input,.input-wrapper-2 button {
